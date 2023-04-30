@@ -27,7 +27,7 @@ function onSubmit(event) {
   userInput = event.currentTarget.elements.searchQuery.value.trim();
   if (!loadMoreBtn.classList.contains('is-hidden')) {
     loadMoreBtn.classList.add('is-hidden');
-  };
+  }
   if (userInput === '') {
     Notiflix.Notify.failure('Enter a query');
   } else {
@@ -36,13 +36,13 @@ function onSubmit(event) {
     getUser(userInput).then(() => {
       if (quantityOfValues > 0) {
         Notiflix.Notify.success(`Hooray! We found ${quantityOfValues} images.`);
-      };
+      }
       pageForBtn += 1;
       lightbox.refresh();
       input.value = '';
     });
-  };
-};
+  }
+}
 
 async function getUser(query) {
   try {
@@ -53,7 +53,7 @@ async function getUser(query) {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
-    };
+    }
     let arr = response.data.hits;
     let lastPage = Math.ceil(response.data.totalHits / 40);
     quantityOfValues = response.data.totalHits;
@@ -62,27 +62,27 @@ async function getUser(query) {
 
     if (response.data.total > 40) {
       loadMoreBtn.classList.remove('is-hidden');
-    };
+    }
     if (pageForBtn === lastPage) {
       if (!loadMoreBtn.classList.contains('is-hidden')) {
         loadMoreBtn.classList.add('is-hidden');
-      };
+      }
       if (response.data.total <= 40) {
         return;
-      };
+      }
       Notiflix.Notify.info(
         "We're sorry, but you've reached the end of search results."
       );
-    };
+    }
   } catch (error) {
     console.error(error);
-  };
-};
+  }
+}
 
 function makeListCard(data) {
   const markup = markupCard(data);
   gallery.insertAdjacentHTML('beforeend', markup);
-};
+}
 
 function markupCard(data) {
   return data
@@ -117,17 +117,19 @@ function markupCard(data) {
 </div>`
     )
     .join('');
-};
+}
 
 function onClick(event) {
   event.preventDefault();
   getUser(userInput).then(() => {
     pageForBtn += 1;
     lightbox.refresh();
-    const { height: cardHeight } = document.querySelector('.gallery').firstElementChild.getBoundingClientRect();
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
     window.scrollBy({
       top: cardHeight * 2,
       behavior: 'smooth',
     });
   });
-};
+}
